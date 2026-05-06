@@ -44,6 +44,7 @@ def clear_screen():
 def hangman(secret_word):
     guessed_letters = []
     mistakes = 0
+    last_hint = None
     stages = [
     """
        -----
@@ -108,20 +109,32 @@ def hangman(secret_word):
         print (stages[mistakes])
         print (get_guessed_word(secret_word, guessed_letters))
         print (get_available_letters(guessed_letters))
+        if last_hint is not None:
+            print("Hint:", last_hint)
         guess = input("Please guess a letter: ")
         if guess in secret_word:
             guessed_letters.append(guess)
+            last_hint = None
         elif guess == "?":
-            print (show_possible_matches(get_guessed_word(secret_word, guessed_letters)))
+            last_hint = show_possible_matches(get_guessed_word(secret_word, guessed_letters))
         else:
             guessed_letters.append(guess)
             mistakes += 1
 
-def main():
-    # Entry point for the game
-    secret_word = choose_word_random()
-    hangman(secret_word)
+    clear_screen()
+    print(stages[mistakes])
+    if is_word_guessed(secret_word, guessed_letters):
+        print(f"You got it! The word was '{secret_word}'.")
+    else:
+        print(f"Game over. The word was '{secret_word}'.")
 
+def main():
+    while True:
+        secret_word = choose_word_random()
+        hangman(secret_word)
+        again = input("\nPress Enter to play again, or type 'q' to quit: ")
+        if again.strip().lower() == "q":
+            break
 
 if __name__ == "__main__":
     main()
