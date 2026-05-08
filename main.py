@@ -1,8 +1,6 @@
 import random
 import os
-
-# List of potential words
-WORDS = ["transmission", "throttle", "compression", "combustion", "horsepower", "displacement", "octane", "gasoline"]
+from dictionary import WORDS
 
 # Symbol used to represent hidden letters
 HIDDEN_SYMBOL = "_"
